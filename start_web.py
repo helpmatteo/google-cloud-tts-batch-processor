@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Demo entry point for Advanced TTS Batch Processor
+Web interface entry point for Advanced TTS Batch Processor
 """
 
 import sys
@@ -10,12 +10,11 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 def main():
-    """Run the demo"""
-    from src.cli.demo import Demo
+    """Start the web interface"""
+    from src.web.start_web_interface import start_web_server
     
-    # Run the demo
-    demo = Demo()
-    demo.run()
+    # Start the web server
+    start_web_server()
 
 if __name__ == "__main__":
     main()

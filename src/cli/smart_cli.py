@@ -196,7 +196,7 @@ class SmartCLI:
     
     def _get_credentials(self) -> Optional[str]:
         """Get credentials file with suggestions"""
-        console.print("\n[bold yellow]Credentials:[/bold yellow]")
+        console.print("\n[bold yellow]🔑 Google Cloud Credentials (Required)[/bold yellow]")
         
         # Check for existing credentials
         cred_files = [
@@ -226,18 +226,70 @@ class SmartCLI:
             if Path(choice).exists():
                 return choice
         
-        # Manual input
+        # No credentials found
+        console.print("[bold red]❌ No Google Cloud credentials found![/bold red]")
+        console.print("You need Google Cloud credentials to use the TTS service.")
+        
+        console.print("\n[bold yellow]Options:[/bold yellow]")
+        console.print("1. Run setup wizard (recommended)")
+        console.print("2. Enter credentials path manually")
+        console.print("3. Cancel and exit")
+        
+        choice = Prompt.ask("Choose option", choices=["1", "2", "3"], default="1")
+        
+        if choice == "1":
+            self._setup_credentials()
+            return "google-credentials.json"
+        elif choice == "2":
+            return self._manual_credential_input()
+        else:
+            return None
+    
+    def _manual_credential_input(self) -> Optional[str]:
+        """Manual credential input with validation"""
         while True:
             path = Prompt.ask("Enter credentials file path")
             if Path(path).exists():
-                return path
+                # Validate the credentials file
+                if self._validate_credentials_file(path):
+                    return path
+                else:
+                    console.print("[red]❌ Invalid credentials file format[/red]")
+                    console.print("Please ensure you have a valid Google Cloud service account JSON file.")
             else:
-                console.print(f"[red]File not found: {path}[/red]")
-                if Prompt.ask("Setup credentials now?", choices=["y", "n"], default="y") == "y":
-                    self._setup_credentials()
-                    return "google-credentials.json"
-                elif not Prompt.ask("Try again?", choices=["y", "n"], default="y") == "y":
-                    return None
+                console.print(f"[red]❌ File not found: {path}[/red]")
+                console.print("Please check the file path and try again.")
+            
+            if not Prompt.ask("Try again?", choices=["y", "n"], default="y") == "y":
+                return None
+    
+    def _validate_credentials_file(self, file_path: str) -> bool:
+        """Validate Google Cloud credentials file"""
+        try:
+            with open(file_path, 'r') as f:
+                creds = json.load(f)
+            
+            # Check for required fields
+            required_fields = ['type', 'project_id', 'private_key_id', 'private_key', 'client_email']
+            for field in required_fields:
+                if field not in creds:
+                    console.print(f"[red]Missing required field: {field}[/red]")
+                    return False
+            
+            # Check if it's a service account
+            if creds.get('type') != 'service_account':
+                console.print("[red]Not a service account credentials file[/red]")
+                return False
+            
+            console.print(f"[green]✅ Valid service account for project: {creds.get('project_id', 'Unknown')}[/green]")
+            return True
+            
+        except json.JSONDecodeError:
+            console.print("[red]Invalid JSON format[/red]")
+            return False
+        except Exception as e:
+            console.print(f"[red]Error reading credentials file: {e}[/red]")
+            return False
     
     def _setup_credentials(self):
         """Setup credentials"""

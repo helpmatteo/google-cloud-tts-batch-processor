@@ -17,8 +17,8 @@ from typing import Dict, Any, List
 import uuid
 
 # Import our TTS processor
-from tts_batch_processor import AdvancedTTSProcessor
-from config_manager import ConfigManager
+from ..core.tts_batch_processor import AdvancedTTSProcessor
+from ..core.config_manager import ConfigManager
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -606,7 +606,7 @@ def process_job(job_id: str, sentences: List[str], config: Dict[str, Any]):
         output_dir.mkdir(exist_ok=True)
         
         # Create processor configuration
-        from tts_batch_processor import UltraProcessingConfig
+        from ..core.tts_batch_processor import UltraProcessingConfig
         
         processor_config = UltraProcessingConfig(
             voice_name=config.get('voice', 'en-US-Neural2-A'),

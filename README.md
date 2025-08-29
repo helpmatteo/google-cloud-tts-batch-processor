@@ -1,401 +1,197 @@
-# Advanced Text-to-Speech Batch Processor
+# Advanced TTS Batch Processor
 
-A high-performance Python toolkit for batch processing text-to-speech conversion using Google Cloud Text-to-Speech API. This tool supports multiple languages, voice rotation, intelligent caching, and optimized processing for large-scale audio generation.
-
-## 🌟 Features
-
-- ✅ **Multi-language Support** - English, Japanese, Spanish, French, German, and more
-- ✅ **Voice Rotation** - Automatically cycle through different neural voices
-- ✅ **High Performance** - Async processing with connection pooling and intelligent batching
-- ✅ **Smart Caching** - Prevents duplicate API calls and enables resume functionality
-- ✅ **Multiple Audio Formats** - MP3, WAV, OGG, FLAC
-- ✅ **Configurable Quality** - Adjustable sample rates and voice selection
-- ✅ **Progress Tracking** - Real-time progress monitoring and detailed logging
-- ✅ **Error Handling** - Robust retry mechanisms and error recovery
-- ✅ **Rate Limiting** - Built-in API quota management
-- ✅ **🎨 Beautiful CLI** - Rich terminal interface with progress bars and tables
-- ✅ **🌐 Web Interface** - Modern web UI for easy TTS processing
-- ✅ **⚙️ Configuration Management** - YAML-based configuration system
-- ✅ **🛡️ Circuit Breaker** - Advanced error handling and resilience
-- ✅ **🎵 Audio Enhancement** - Quality improvement and normalization
-- ✅ **📊 Real-time Monitoring** - Live progress tracking and statistics
+A powerful, feature-rich Text-to-Speech batch processing system with web interface, voice rotation, and advanced audio processing capabilities.
 
 ## 🚀 Quick Start
 
-### Option 1: One-Click Launcher (Recommended)
-```bash
-python launch.py
-```
-This will automatically check your system and recommend the best interface for you!
+### Prerequisites
+- Python 3.7+
+- Google Cloud account with Text-to-Speech API enabled
+- Google Cloud service account credentials
 
-### Option 2: Interactive Setup Wizard
-```bash
-python setup_wizard.py
-```
-Guided setup with credential configuration and preferences.
+### Installation
 
-### Option 3: Manual Setup
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd jpg-tts
+   ```
 
-#### 1. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
+2. **Run the setup wizard**
+   ```bash
+   python setup.py
+   ```
+   This will guide you through:
+   - Installing dependencies
+   - Setting up Google Cloud credentials
+   - Configuring language preferences
+   - Setting processing options
 
-#### 2. Set Up Google Cloud
-1. **Create a Google Cloud Project** and enable the Text-to-Speech API
-2. **Create a Service Account** and download the JSON credentials file
-3. **Save the credentials** as `google-credentials.json` in your project directory
+3. **Start using the system**
+   ```bash
+   # Process text files
+   python main.py docs/examples/examples_en.txt
+   
+   # Launch web interface
+   python start_web.py
+   
+   # Try the demo
+   python demo.py
+   ```
 
-#### 3. Basic Usage
-
-#### Command Line Interface
-```bash
-# Process English sentences
-python tts_batch_processor.py examples_en.txt --credentials google-credentials.json
-
-# Process Japanese sentences with voice rotation
-python tts_batch_processor.py examples_ja.txt \
-    --credentials google-credentials.json \
-    --language ja-JP \
-    --enable-voice-rotation
-
-# Process Spanish sentences with specific voice
-python tts_batch_processor.py examples_es.txt \
-    --credentials google-credentials.json \
-    --language es-ES \
-    --voice es-ES-Neural2-A
-```
-
-#### Web Interface
-```bash
-# Start the web interface
-python start_web_interface.py
-
-# Then open http://localhost:5000 in your browser
-```
-
-#### Smart CLI Interface
-```bash
-# Launch interactive command-line interface
-python smart_cli.py
-```
-
-#### Demo Mode
-```bash
-# See all features in action
-python demo.py
-```
-
-## 📖 Detailed Usage
-
-### Command Line Options
-
-| Option | Description | Default |
-|--------|-------------|---------|
-| `input_file` | Path to text file with sentences | Required |
-| `--credentials` | Path to Google Cloud credentials JSON | Required |
-| `--language` | Language code (en-US, ja-JP, es-ES, fr-FR, de-DE) | `en-US` |
-| `--output-dir` | Output directory for audio files | `tts_output` |
-| `--voice` | Specific voice name (used when rotation disabled) | Auto-selected |
-| `--enable-voice-rotation` | Enable voice rotation between available voices | `True` |
-| `--disable-voice-rotation` | Disable voice rotation (use fixed voice) | `False` |
-| `--format` | Audio format (MP3, WAV, OGG, FLAC) | `MP3` |
-| `--sample-rate` | Audio sample rate in Hz | `24000` |
-| `--delay` | Delay between batches (seconds) | `0.05` |
-| `--max-workers` | Maximum concurrent workers | `5` |
-| `--batch-size` | Batch size for processing | `20` |
-| `--max-concurrent` | Maximum concurrent requests | `15` |
-| `--retry-attempts` | Number of retry attempts | `3` |
-| `--max-sentences` | Maximum number of sentences to process | All |
-
-### Supported Languages
-
-| Language | Code | Available Voices |
-|----------|------|------------------|
-| English (US) | `en-US` | 9 Neural2 voices |
-| Japanese | `ja-JP` | 4 Neural2 voices |
-| Spanish (Spain) | `es-ES` | 4 Neural2 voices |
-| French | `fr-FR` | 4 Neural2 voices |
-| German | `de-DE` | 4 Neural2 voices |
-
-### Voice Rotation
-
-When enabled, the processor automatically cycles through available voices for each sentence:
-
-```bash
-# Enable voice rotation (default)
-python tts_batch_processor.py input.txt \
-    --credentials google-credentials.json \
-    --enable-voice-rotation
-
-# Disable voice rotation and use specific voice
-python tts_batch_processor.py input.txt \
-    --credentials google-credentials.json \
-    --disable-voice-rotation \
-    --voice en-US-Neural2-A
-```
-
-## 📁 Output Structure
+## 📁 Project Structure
 
 ```
-tts_output/
-├── sentence_0001.mp3
-├── sentence_0002.mp3
-├── sentence_0003.mp3
-├── ...
-├── processing_results.json
-└── tts_batch.log
+jpg-tts/
+├── src/                    # Main source code
+│   ├── core/              # Core TTS processing modules
+│   │   ├── tts_batch_processor.py
+│   │   ├── audio_processor.py
+│   │   ├── config_manager.py
+│   │   └── error_handler.py
+│   ├── web/               # Web interface modules
+│   │   ├── web_interface.py
+│   │   └── start_web_interface.py
+│   ├── cli/               # Command-line interface modules
+│   │   ├── smart_cli.py
+│   │   ├── setup_wizard.py
+│   │   └── demo.py
+│   └── utils/             # Utility modules
+│       └── launch.py
+├── docs/                  # Documentation
+│   ├── guides/           # Detailed guides and documentation
+│   └── examples/         # Example text files
+├── config/               # Configuration files
+│   ├── tts_config.yaml
+│   └── tts_config.json
+├── scripts/              # Installation and setup scripts
+├── tests/                # Test files
+├── main.py               # Main CLI entry point
+├── start_web.py          # Web interface entry point
+├── setup.py              # Setup wizard entry point
+├── demo.py               # Demo entry point
+└── requirements.txt      # Python dependencies
 ```
 
-### Processing Results
+## 🎯 Key Features
 
-The tool generates a detailed JSON report:
-
-```json
-{
-  "total": 100,
-  "successful": 98,
-  "failed": 2,
-  "processing_time": "00:02:30",
-  "files": [
-    {
-      "index": 1,
-      "sentence": "Hello, how are you today?",
-      "filepath": "tts_output/sentence_0001.mp3",
-      "voice": "en-US-Neural2-A",
-      "duration": 2.5
-    }
-  ],
-  "errors": [
-    "Index 15: Empty sentence",
-    "Index 23: Google Cloud error: Quota exceeded"
-  ]
-}
-```
-
-## ⚙️ Configuration
-
-### Audio Formats
-
-| Format | Extension | Description | Recommended |
-|--------|-----------|-------------|-------------|
-| MP3 | `.mp3` | Compressed audio format | ✅ Yes |
-| WAV | `.wav` | Uncompressed audio format | No |
-| OGG | `.ogg` | Open source compressed format | No |
-| FLAC | `.flac` | Lossless compressed format | No |
-
-### Sample Rates
-
-| Rate | Description | Recommended |
-|------|-------------|-------------|
-| 24000 Hz | Standard quality | ✅ Yes |
-| 16000 Hz | Lower quality, smaller files | No |
-| 48000 Hz | High quality, larger files | No |
-
-## 💰 Cost Estimation
-
-Google Cloud TTS pricing (as of 2024):
-- **Neural2 voices**: $16.00 per 1 million characters
-- **Wavenet voices**: $4.00 per 1 million characters
-
-**Example**: 1000 sentences (~20,000 characters)
-- **Neural2**: ~$0.32
-- **Wavenet**: ~$0.08
-
-## 🔧 Advanced Features
-
-### 🎨 Rich CLI Interface
-- **Beautiful Progress Bars**: Real-time processing visualization
-- **Colorful Tables**: Easy-to-read results and statistics
-- **Interactive Elements**: Enhanced user experience
-- **Status Indicators**: Clear success/failure feedback
-
-### 🌐 Web Interface
-- **Modern UI**: Responsive, user-friendly interface
-- **Real-time Progress**: Live updates during processing
-- **File Management**: Direct download of generated audio
-- **Configuration Panel**: Easy settings management
-
-### ⚙️ Configuration Management
-- **YAML Configuration**: Human-readable settings
-- **Dynamic Updates**: Runtime configuration changes
-- **Validation**: Automatic configuration validation
-- **Defaults**: Sensible default values
-
-### 🛡️ Advanced Error Handling
-- **Circuit Breaker Pattern**: Prevents cascading failures
-- **Exponential Backoff**: Intelligent retry mechanisms
-- **Error Recovery**: Graceful failure handling
-- **Monitoring**: Real-time error tracking
-
-### 🎵 Audio Quality Enhancement
-- **Normalization**: Consistent audio levels
-- **Noise Reduction**: Clean audio output
-- **Compression**: Dynamic range control
-- **Equalization**: Frequency balance adjustment
-
-### 💾 Caching and Resume
-- **Intelligent Caching**: Prevents duplicate API calls
+### Core Features
+- **Batch Processing**: Process multiple text files efficiently
+- **Voice Rotation**: Automatically rotate between different voices
+- **Multi-language Support**: English, Japanese, Spanish, French, German
+- **Audio Enhancement**: Quality improvement and normalization
 - **Resume Functionality**: Continue interrupted processing
-- **Cost Reduction**: Minimize API usage
-- **Performance Boost**: Faster subsequent runs
+- **Caching**: Faster subsequent runs with result caching
 
-### 🚀 One-Click Launcher
-- **Smart Recommendations**: Automatically suggests best interface
-- **System Detection**: Checks capabilities and dependencies
-- **Easy Access**: Single command to get started
-- **Browser Integration**: Automatic browser opening
+### Web Interface
+- **Modern UI**: Clean, responsive web interface
+- **Real-time Processing**: Live progress updates
+- **File Upload**: Drag-and-drop file processing
+- **Settings Management**: Easy configuration changes
 
-### 🎯 Interactive Setup Wizard
-- **Guided Setup**: Step-by-step configuration
-- **Credential Management**: Easy Google Cloud setup
-- **Preference Selection**: Language and voice preferences
-- **Demo Mode**: Try without credentials
+### Advanced Features
+- **Error Handling**: Robust error recovery and logging
+- **Performance Optimization**: Configurable processing speeds
+- **Multiple Output Formats**: MP3, WAV, OGG, FLAC
+- **Quality Settings**: Fast, Standard, and High quality options
 
-### 🧠 Smart CLI
-- **Interactive Commands**: Guided command building
-- **Auto-completion**: Intelligent suggestions
-- **File Detection**: Automatic file and credential detection
-- **Help Integration**: Built-in help and examples
+## 📖 Usage
 
-### Performance Optimization
-- **Async Processing**: Concurrent API requests
-- **Connection Pooling**: Reuse HTTP connections
-- **Intelligent Batching**: Optimize batch sizes
-- **Rate Limiting**: Respect API quotas
+### Command Line Interface
 
-## 🛠️ Examples
-
-### Test Run (10 sentences)
 ```bash
-python tts_batch_processor.py examples_en.txt \
-    --credentials google-credentials.json \
-    --max-sentences 10 \
-    --output-dir test_output
+# Basic usage
+python main.py input.txt
+
+# With specific options
+python main.py input.txt --language en-US --voice female --output mp3
+
+# Process multiple files
+python main.py file1.txt file2.txt file3.txt
+
+# Use specific configuration
+python main.py input.txt --config config/custom_config.yaml
 ```
 
-### High Quality Production Run
+### Web Interface
+
 ```bash
-python tts_batch_processor.py input.txt \
-    --credentials google-credentials.json \
-    --voice en-US-Neural2-A \
-    --format MP3 \
-    --sample-rate 24000 \
-    --delay 0.15 \
-    --output-dir production_audio
+# Start the web server
+python start_web.py
+
+# Access at http://localhost:5000
 ```
 
-### Multi-language Processing
+### Configuration
+
+The system uses YAML configuration files located in the `config/` directory:
+
+- `tts_config.yaml`: Main configuration
+- `tts_config.json`: Alternative JSON format
+
+Key configuration options:
+- Audio quality settings
+- Processing speed and concurrency
+- Voice preferences
+- Language settings
+- Output format options
+
+## 🔧 Development
+
+### Running Tests
 ```bash
-# English
-python tts_batch_processor.py examples_en.txt \
-    --credentials google-credentials.json \
-    --language en-US \
-    --output-dir english_audio
-
-# Japanese
-python tts_batch_processor.py examples_ja.txt \
-    --credentials google-credentials.json \
-    --language ja-JP \
-    --output-dir japanese_audio
-
-# Spanish
-python tts_batch_processor.py examples_es.txt \
-    --credentials google-credentials.json \
-    --language es-ES \
-    --output-dir spanish_audio
+python -m pytest tests/
 ```
 
-### Web Interface Usage
-```bash
-# Start the web interface
-python start_web_interface.py
+### Code Structure
+- **Core Modules**: Main TTS processing logic
+- **Web Interface**: Flask-based web application
+- **CLI Tools**: Command-line interface and utilities
+- **Configuration**: Flexible configuration management
 
-# Open http://localhost:5000 in your browser
-# Upload text file or paste sentences
-# Configure language, voice, and format
-# Start processing with real-time progress
-```
-
-### Demo All Features
-```bash
-# Run the comprehensive demo
-python demo.py
-
-# This showcases all new features including:
-# - Rich CLI interface
-# - Configuration management
-# - Error handling
-# - Audio processing
-# - Web interface capabilities
-```
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **Authentication Error**
-   ```
-   Error: Failed to initialize Google Cloud TTS client
-   ```
-   - Check credentials file path
-   - Verify service account has Text-to-Speech API access
-
-2. **Quota Exceeded**
-   ```
-   Error: Quota exceeded for quota group 'default'
-   ```
-   - Increase delay: `--delay 0.5`
-   - Process smaller batches: `--max-sentences 100`
-
-3. **Invalid Voice**
-   ```
-   Error: Invalid voice name
-   ```
-   - Check available voices in `tts_config.json`
-   - Use supported language codes
-
-### Performance Tips
-
-- **Large batches**: Use `--delay 0.2` to avoid rate limits
-- **Testing**: Use `--max-sentences 10` for quick tests
-- **Quality**: Use Neural2 voices with 24kHz sample rate
-- **Storage**: Use MP3 format for smaller file sizes
+### Adding New Features
+1. Add your module to the appropriate `src/` subdirectory
+2. Update the corresponding `__init__.py` file
+3. Add tests in the `tests/` directory
+4. Update documentation in `docs/guides/`
 
 ## 📚 Documentation
 
-- [Voice Rotation Guide](VOICE_ROTATION_GUIDE.md) - Detailed voice rotation configuration
-- [Testing Guide](TESTING_GUIDE.md) - Testing and validation procedures
-- [Performance Comparison](PERFORMANCE_COMPARISON.md) - Performance benchmarks
-- [Ultra Optimization Guide](ULTRA_OPTIMIZATION_GUIDE.md) - Advanced optimization techniques
+Comprehensive documentation is available in the `docs/` directory:
+
+- **Guides**: Detailed setup and usage guides
+- **Examples**: Sample text files for testing
+- **Configuration**: Configuration file documentation
+
+Key documentation files:
+- `docs/QUICK_START.md`: Quick start guide
+- `docs/guides/GOOGLE_CLOUD_SETUP.md`: Google Cloud setup
+- `docs/guides/ENHANCEMENT_SUMMARY.md`: Feature overview
+- `docs/guides/TESTING_GUIDE.md`: Testing instructions
 
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Add tests if applicable
+4. Add tests
 5. Submit a pull request
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## ⚠️ Disclaimer
-
-This tool is provided as-is for educational and personal use. Please respect Google Cloud's terms of service and usage limits. Users are responsible for their own API usage and costs.
+This project is licensed under the MIT License - see the `LICENSE` file for details.
 
 ## 🆘 Support
 
-If you encounter issues:
-1. Check the log file: `tts_batch.log`
-2. Verify your Google Cloud setup
-3. Test with a small batch first
-4. Check your internet connection
-5. Review the troubleshooting section above
+For support and questions:
+1. Check the documentation in `docs/guides/`
+2. Review the example files in `docs/examples/`
+3. Run the setup wizard: `python setup.py`
+4. Try the demo: `python demo.py`
 
----
+## 🎉 Acknowledgments
 
-**Happy Text-to-Speech Processing! 🎤✨**
-# google-cloud-tts-batch-processor
-# google-cloud-tts-batch-processor
+- Google Cloud Text-to-Speech API
+- Flask web framework
+- Rich terminal library
+- All contributors and users

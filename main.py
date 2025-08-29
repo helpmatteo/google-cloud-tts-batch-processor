@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Demo entry point for Advanced TTS Batch Processor
+Main entry point for Advanced TTS Batch Processor
 """
 
 import sys
@@ -10,12 +10,12 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 def main():
-    """Run the demo"""
-    from src.cli.demo import Demo
+    """Main entry point"""
+    from src.cli.smart_cli import SmartCLI
     
-    # Run the demo
-    demo = Demo()
-    demo.run()
+    # Initialize and run the CLI
+    cli = SmartCLI()
+    cli.run()
 
 if __name__ == "__main__":
     main()

@@ -79,8 +79,9 @@ class SetupWizard:
             return False
     
     def setup_credentials(self):
-        """Guide user through credential setup"""
-        console.print("\n[bold cyan]🔑 Setting up Google Cloud credentials...[/bold cyan]")
+        """Guide user through credential setup - PRIORITY FIRST"""
+        console.print("\n[bold cyan]🔑 Google Cloud Credentials Setup (Required)[/bold cyan]")
+        console.print("This is the most important step! You need Google Cloud credentials to use the TTS service.")
         
         # Check for existing credentials
         existing_paths = [
@@ -96,7 +97,11 @@ class SetupWizard:
                     self.credentials_path = path
                     return True
         
-        console.print("\n[bold yellow]To use Google Cloud TTS, you need to set up credentials:[/bold yellow]")
+        console.print("\n[bold red]⚠️ No Google Cloud credentials found![/bold red]")
+        console.print("You MUST set up Google Cloud credentials to use the TTS service.")
+        
+        # Force credential setup
+        console.print("\n[bold yellow]Let's set up your Google Cloud credentials now:[/bold yellow]")
         
         # Provide step-by-step instructions
         steps = [
@@ -111,9 +116,9 @@ class SetupWizard:
             console.print(f"   {step}")
         
         console.print("\n[bold yellow]Options:[/bold yellow]")
-        console.print("1. I have credentials file")
-        console.print("2. I need help setting up Google Cloud")
-        console.print("3. Skip for now (use demo mode)")
+        console.print("1. I have credentials file (recommended)")
+        console.print("2. I need detailed help setting up Google Cloud")
+        console.print("3. Skip for now (demo mode only - limited functionality)")
         
         choice = Prompt.ask("Choose option", choices=["1", "2", "3"], default="1")
         
@@ -122,6 +127,9 @@ class SetupWizard:
         elif choice == "2":
             return self._show_google_cloud_help()
         else:
+            console.print("\n[bold yellow]⚠️ Demo mode selected[/bold yellow]")
+            console.print("You'll only be able to explore the interface without real TTS processing.")
+            console.print("To use full functionality, you'll need to set up credentials later.")
             return self._setup_demo_mode()
     
     def _handle_existing_credentials(self):
@@ -132,47 +140,117 @@ class SetupWizard:
             path = Prompt.ask("Credentials file path", default="google-credentials.json")
             
             if Path(path).exists():
-                # Copy to project directory
-                target_path = "google-credentials.json"
-                shutil.copy2(path, target_path)
-                self.credentials_path = target_path
-                console.print(f"[green]✅ Credentials copied to: {target_path}[/green]")
-                return True
+                # Validate the credentials file
+                if self._validate_credentials_file(path):
+                    # Copy to project directory
+                    target_path = "google-credentials.json"
+                    shutil.copy2(path, target_path)
+                    self.credentials_path = target_path
+                    console.print(f"[green]✅ Credentials validated and copied to: {target_path}[/green]")
+                    return True
+                else:
+                    console.print("[red]❌ Invalid credentials file format[/red]")
+                    console.print("Please ensure you have a valid Google Cloud service account JSON file.")
+                    if not Confirm.ask("Try again?", default=True):
+                        return self._setup_demo_mode()
             else:
                 console.print(f"[red]❌ File not found: {path}[/red]")
+                console.print("Please check the file path and try again.")
                 if not Confirm.ask("Try again?", default=True):
                     return self._setup_demo_mode()
+    
+    def _validate_credentials_file(self, file_path: str) -> bool:
+        """Validate Google Cloud credentials file"""
+        try:
+            with open(file_path, 'r') as f:
+                creds = json.load(f)
+            
+            # Check for required fields
+            required_fields = ['type', 'project_id', 'private_key_id', 'private_key', 'client_email']
+            for field in required_fields:
+                if field not in creds:
+                    console.print(f"[red]Missing required field: {field}[/red]")
+                    return False
+            
+            # Check if it's a service account
+            if creds.get('type') != 'service_account':
+                console.print("[red]Not a service account credentials file[/red]")
+                return False
+            
+            console.print(f"[green]✅ Valid service account for project: {creds.get('project_id', 'Unknown')}[/green]")
+            return True
+            
+        except json.JSONDecodeError:
+            console.print("[red]Invalid JSON format[/red]")
+            return False
+        except Exception as e:
+            console.print(f"[red]Error reading credentials file: {e}[/red]")
+            return False
     
     def _show_google_cloud_help(self):
         """Show detailed Google Cloud setup help"""
         console.print(Panel.fit(
-            "[bold blue]🔧 Google Cloud Setup Guide[/bold blue]\n\n"
-            "1. **Create Project**:\n"
-            "   - Go to https://console.cloud.google.com\n"
-            "   - Click 'Select a project' → 'New Project'\n"
-            "   - Enter project name and click 'Create'\n\n"
-            "2. **Enable API**:\n"
-            "   - Go to 'APIs & Services' → 'Library'\n"
-            "   - Search for 'Cloud Text-to-Speech API'\n"
-            "   - Click 'Enable'\n\n"
-            "3. **Create Service Account**:\n"
-            "   - Go to 'APIs & Services' → 'Credentials'\n"
-            "   - Click 'Create Credentials' → 'Service Account'\n"
-            "   - Fill in details and click 'Create'\n\n"
-            "4. **Download Key**:\n"
-            "   - Click on your service account\n"
-            "   - Go to 'Keys' tab → 'Add Key' → 'Create New Key'\n"
-            "   - Choose JSON format and download\n\n"
-            "5. **Save Key**:\n"
-            "   - Save the downloaded file as 'google-credentials.json'\n"
-            "   - Place it in this project directory",
+            "[bold blue]🔧 Complete Google Cloud Setup Guide[/bold blue]\n\n"
+            "[bold yellow]Step 1: Create a Google Cloud Project[/bold yellow]\n"
+            "1. Go to https://console.cloud.google.com\n"
+            "2. Sign in with your Google account\n"
+            "3. Click 'Select a project' → 'New Project'\n"
+            "4. Enter a project name (e.g., 'my-tts-project')\n"
+            "5. Click 'Create'\n\n"
+            
+            "[bold yellow]Step 2: Enable the Text-to-Speech API[/bold yellow]\n"
+            "1. In your project, go to 'APIs & Services' → 'Library'\n"
+            "2. Search for 'Cloud Text-to-Speech API'\n"
+            "3. Click on it and press 'Enable'\n"
+            "4. Wait for the API to be enabled\n\n"
+            
+            "[bold yellow]Step 3: Create a Service Account[/bold yellow]\n"
+            "1. Go to 'APIs & Services' → 'Credentials'\n"
+            "2. Click 'Create Credentials' → 'Service Account'\n"
+            "3. Enter service account name (e.g., 'tts-service')\n"
+            "4. Click 'Create and Continue'\n"
+            "5. Skip role assignment, click 'Continue'\n"
+            "6. Click 'Done'\n\n"
+            
+            "[bold yellow]Step 4: Create and Download API Key[/bold yellow]\n"
+            "1. Click on your newly created service account\n"
+            "2. Go to 'Keys' tab\n"
+            "3. Click 'Add Key' → 'Create New Key'\n"
+            "4. Choose 'JSON' format\n"
+            "5. Click 'Create' - this will download the key file\n\n"
+            
+            "[bold yellow]Step 5: Save the Credentials[/bold yellow]\n"
+            "1. Rename the downloaded file to 'google-credentials.json'\n"
+            "2. Move it to this project directory\n"
+            "3. Run this setup wizard again\n\n"
+            
+            "[bold red]Important Security Notes:[/bold red]\n"
+            "• Keep your credentials file secure and private\n"
+            "• Don't share or commit it to version control\n"
+            "• The file contains sensitive access keys\n\n"
+            
+            "[bold green]Cost Information:[/bold green]\n"
+            "• Google Cloud TTS has a free tier\n"
+            "• First 4 million characters per month are free\n"
+            "• After that, ~$4 per 1 million characters\n"
+            "• You can set up billing alerts to control costs",
             border_style="blue"
         ))
         
-        if Confirm.ask("Continue with demo mode for now?", default=True):
+        console.print("\n[bold yellow]Would you like to:[/bold yellow]")
+        console.print("1. Continue with demo mode (explore interface only)")
+        console.print("2. Exit and complete Google Cloud setup first")
+        
+        choice = Prompt.ask("Choose option", choices=["1", "2"], default="2")
+        
+        if choice == "1":
             return self._setup_demo_mode()
         else:
-            console.print("[yellow]Please complete Google Cloud setup and run this wizard again.[/yellow]")
+            console.print("\n[bold blue]📋 Next Steps:[/bold blue]")
+            console.print("1. Follow the guide above to set up Google Cloud")
+            console.print("2. Download your credentials file")
+            console.print("3. Run this wizard again: python setup_wizard.py")
+            console.print("4. Select 'I have credentials file' when prompted")
             return False
     
     def _setup_demo_mode(self):
@@ -336,7 +414,7 @@ class SetupWizard:
         
         try:
             # Create YAML configuration
-            from config_manager import ConfigManager
+            from ..core.config_manager import ConfigManager
             config_manager = ConfigManager()
             
             # Update configuration based on wizard choices

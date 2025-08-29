@@ -119,20 +119,24 @@ class TTSLauncher:
             self._install_dependencies()
             capabilities["dependencies"] = True
         
-        # Decision logic
+        # PRIORITY: Check credentials first
+        if not capabilities["credentials"]:
+            console.print("[bold red]⚠️ No Google Cloud credentials found![/bold red]")
+            console.print("[green]🎯 Recommended: Setup Wizard[/green]")
+            console.print("   • You need to set up Google Cloud credentials first")
+            console.print("   • Interactive credential setup and configuration")
+            console.print("   • Guided Google Cloud setup process")
+            console.print("   • Demo mode available for exploration")
+            return "setup"
+        
+        # Decision logic for users with credentials
         if capabilities["browser"] and capabilities["network"]:
-            if capabilities["credentials"]:
-                console.print("[green]🎯 Recommended: Web Interface[/green]")
-                console.print("   • Modern, user-friendly interface")
-                console.print("   • Real-time progress tracking")
-                console.print("   • Easy file management")
-                return "web"
-            else:
-                console.print("[green]🎯 Recommended: Setup Wizard[/green]")
-                console.print("   • Interactive credential setup")
-                console.print("   • Guided configuration")
-                console.print("   • Demo mode available")
-                return "setup"
+            console.print("[green]🎯 Recommended: Web Interface[/green]")
+            console.print("   • Modern, user-friendly interface")
+            console.print("   • Real-time progress tracking")
+            console.print("   • Easy file management")
+            console.print("   • Full TTS functionality available")
+            return "web"
         else:
             console.print("[green]🎯 Recommended: Smart CLI[/green]")
             console.print("   • Works without browser")

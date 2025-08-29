@@ -52,9 +52,9 @@ logger = logging.getLogger(__name__)
 console = Console()
 
 # Import enhanced features
-from config_manager import ConfigManager
-from error_handler import error_handler, safe_tts_call
-from audio_processor import audio_quality_manager
+from .config_manager import ConfigManager
+from .error_handler import error_handler, safe_tts_call
+from .audio_processor import audio_quality_manager
 
 class VoiceRotator:
     """Manages rotation between different neural voices"""
