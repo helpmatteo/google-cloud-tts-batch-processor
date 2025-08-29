@@ -1,0 +1,28 @@
+# Google Cloud Text-to-Speech dependencies
+google-cloud-texttospeech>=2.16.0
+google-auth>=2.23.0
+google-api-core>=2.11.0
+
+# Async HTTP client for connection pooling
+aiohttp>=3.8.0
+
+# Rich CLI interface
+rich>=13.0.0
+
+# Configuration management
+pyyaml>=6.0
+
+# Web interface
+flask>=2.3.0
+flask-cors>=4.0.0
+
+# Audio processing
+librosa>=0.10.0
+soundfile>=0.12.0
+numpy>=1.21.0
+scipy>=1.9.0
+
+# Additional utilities
+pathlib2>=2.3.0; python_version < "3.4"
+typing-extensions>=4.0.0; python_version < "3.8"
+urllib3>=1.26.0

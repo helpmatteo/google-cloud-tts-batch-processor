@@ -1,0 +1,154 @@
+{
+  "languages": {
+    "en-US": {
+      "name": "English (US)",
+      "voices": {
+        "en-US-Neural2-A": {
+          "name": "en-US-Neural2-A",
+          "language_code": "en-US",
+          "description": "Female neural voice (high quality)",
+          "recommended": true
+        },
+        "en-US-Neural2-C": {
+          "name": "en-US-Neural2-C",
+          "language_code": "en-US",
+          "description": "Male neural voice (high quality)",
+          "recommended": true
+        },
+        "en-US-Neural2-D": {
+          "name": "en-US-Neural2-D",
+          "language_code": "en-US",
+          "description": "Female neural voice (alternative)",
+          "recommended": false
+        },
+        "en-US-Neural2-E": {
+          "name": "en-US-Neural2-E",
+          "language_code": "en-US",
+          "description": "Male neural voice (alternative)",
+          "recommended": false
+        }
+      }
+    },
+    "ja-JP": {
+      "name": "Japanese",
+      "voices": {
+        "ja-JP-Neural2-B": {
+          "name": "ja-JP-Neural2-B",
+          "language_code": "ja-JP",
+          "description": "Female neural voice (high quality)",
+          "recommended": true
+        },
+        "ja-JP-Neural2-C": {
+          "name": "ja-JP-Neural2-C",
+          "language_code": "ja-JP",
+          "description": "Male neural voice (high quality)",
+          "recommended": true
+        },
+        "ja-JP-Neural2-D": {
+          "name": "ja-JP-Neural2-D",
+          "language_code": "ja-JP",
+          "description": "Female neural voice (alternative)",
+          "recommended": false
+        },
+        "ja-JP-Neural2-E": {
+          "name": "ja-JP-Neural2-E",
+          "language_code": "ja-JP",
+          "description": "Male neural voice (alternative)",
+          "recommended": false
+        }
+      }
+    },
+    "es-ES": {
+      "name": "Spanish (Spain)",
+      "voices": {
+        "es-ES-Neural2-A": {
+          "name": "es-ES-Neural2-A",
+          "language_code": "es-ES",
+          "description": "Female neural voice (high quality)",
+          "recommended": true
+        },
+        "es-ES-Neural2-B": {
+          "name": "es-ES-Neural2-B",
+          "language_code": "es-ES",
+          "description": "Male neural voice (high quality)",
+          "recommended": true
+        }
+      }
+    },
+    "fr-FR": {
+      "name": "French",
+      "voices": {
+        "fr-FR-Neural2-A": {
+          "name": "fr-FR-Neural2-A",
+          "language_code": "fr-FR",
+          "description": "Female neural voice (high quality)",
+          "recommended": true
+        },
+        "fr-FR-Neural2-B": {
+          "name": "fr-FR-Neural2-B",
+          "language_code": "fr-FR",
+          "description": "Male neural voice (high quality)",
+          "recommended": true
+        }
+      }
+    },
+    "de-DE": {
+      "name": "German",
+      "voices": {
+        "de-DE-Neural2-A": {
+          "name": "de-DE-Neural2-A",
+          "language_code": "de-DE",
+          "description": "Female neural voice (high quality)",
+          "recommended": true
+        },
+        "de-DE-Neural2-B": {
+          "name": "de-DE-Neural2-B",
+          "language_code": "de-DE",
+          "description": "Male neural voice (high quality)",
+          "recommended": true
+        }
+      }
+    }
+  },
+  "audio_formats": {
+    "MP3": {
+      "extension": "mp3",
+      "description": "Compressed audio format (recommended)",
+      "recommended": true
+    },
+    "WAV": {
+      "extension": "wav",
+      "description": "Uncompressed audio format (larger files)",
+      "recommended": false
+    },
+    "OGG": {
+      "extension": "ogg",
+      "description": "Open source compressed format",
+      "recommended": false
+    },
+    "FLAC": {
+      "extension": "flac",
+      "description": "Lossless compressed format",
+      "recommended": false
+    }
+  },
+  "sample_rates": {
+    "24000": {
+      "description": "Standard quality (recommended)",
+      "recommended": true
+    },
+    "16000": {
+      "description": "Lower quality, smaller files",
+      "recommended": false
+    },
+    "48000": {
+      "description": "High quality, larger files",
+      "recommended": false
+    }
+  },
+  "rate_limits": {
+    "requests_per_minute": 300,
+    "recommended_delay": 0.1,
+    "max_concurrent": 1
+  }
+}

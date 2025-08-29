@@ -1,0 +1,81 @@
+audio:
+  compression_quality: 9
+  default_format: MP3
+  default_sample_rate: 24000
+  enhancement: normalize
+  formats:
+    FLAC:
+      extension: flac
+      recommended: false
+    MP3:
+      extension: mp3
+      recommended: true
+    OGG:
+      extension: ogg
+      recommended: false
+    WAV:
+      extension: wav
+      recommended: false
+languages:
+  de-DE:
+    name: German
+    recommended: false
+    voices:
+    - de-DE-Neural2-A
+    - de-DE-Neural2-B
+    - de-DE-Neural2-C
+    - de-DE-Neural2-D
+  en-US:
+    name: English (US)
+    recommended: true
+    voices:
+    - en-US-Neural2-A
+    - en-US-Neural2-C
+    - en-US-Neural2-D
+    - en-US-Neural2-E
+    - en-US-Neural2-F
+    - en-US-Neural2-G
+    - en-US-Neural2-H
+    - en-US-Neural2-I
+    - en-US-Neural2-J
+  es-ES:
+    name: Spanish (Spain)
+    recommended: false
+    voices:
+    - es-ES-Neural2-A
+    - es-ES-Neural2-B
+    - es-ES-Neural2-C
+    - es-ES-Neural2-D
+  fr-FR:
+    name: French
+    recommended: false
+    voices:
+    - fr-FR-Neural2-A
+    - fr-FR-Neural2-B
+    - fr-FR-Neural2-C
+    - fr-FR-Neural2-D
+  ja-JP:
+    name: Japanese
+    recommended: true
+    voices:
+    - ja-JP-Neural2-B
+    - ja-JP-Neural2-C
+    - ja-JP-Neural2-D
+    - ja-JP-Neural2-E
+processing:
+  batch_size: 20
+  delay: 0.05
+  enable_caching: true
+  intelligent_batching: true
+  max_concurrent: 15
+  max_workers: 5
+  resume_checkpoint: true
+  retry_attempts: 3
+rate_limits:
+  max_concurrent: 1
+  recommended_delay: 0.1
+  requests_per_minute: 300
+voice:
+  default_language: en-US
+  default_voice: en-US-Neural2-A
+  rotation_enabled: true

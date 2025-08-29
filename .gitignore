@@ -1,0 +1,94 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project specific
+# Audio output directories
+tts_output/
+tts_output_ultra/
+production_tts_output/
+missing_sentences_output/
+iapetus_output/
+voice_rotation_*/
+voice_samples_comparison/
+
+# Cache and temporary files
+tts_cache/
+*.log
+*.mp3
+*.wav
+*.ogg
+*.flac
+
+# Configuration files with sensitive data
+google-credentials.json
+credentials.json
+*.key
+*.pem
+
+# Processing results and reports
+processing_results*.json
+final_*.json
+final_*.txt
+missing_sentences*.txt
+duplicate_files_report.txt
+examples.txt
+
+# Test files
+test_*.py
+test_*.txt
+test_*.mp3
+demo_*.py
+
+# Personal project files
+production_config.json
+start_production.sh
+quick_start.sh
+setup_google_cloud.sh
+monitor_production.py
+
+# Temporary files
+*.tmp
+*.temp
