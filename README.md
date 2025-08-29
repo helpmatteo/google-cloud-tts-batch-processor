@@ -22,19 +22,31 @@ A high-performance Python toolkit for batch processing text-to-speech conversion
 
 ## 🚀 Quick Start
 
-### 1. Install Dependencies
+### Option 1: One-Click Launcher (Recommended)
+```bash
+python launch.py
+```
+This will automatically check your system and recommend the best interface for you!
 
+### Option 2: Interactive Setup Wizard
+```bash
+python setup_wizard.py
+```
+Guided setup with credential configuration and preferences.
+
+### Option 3: Manual Setup
+
+#### 1. Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Set Up Google Cloud
-
+#### 2. Set Up Google Cloud
 1. **Create a Google Cloud Project** and enable the Text-to-Speech API
 2. **Create a Service Account** and download the JSON credentials file
 3. **Save the credentials** as `google-credentials.json` in your project directory
 
-### 3. Basic Usage
+#### 3. Basic Usage
 
 #### Command Line Interface
 ```bash
@@ -60,6 +72,18 @@ python tts_batch_processor.py examples_es.txt \
 python start_web_interface.py
 
 # Then open http://localhost:5000 in your browser
+```
+
+#### Smart CLI Interface
+```bash
+# Launch interactive command-line interface
+python smart_cli.py
+```
+
+#### Demo Mode
+```bash
+# See all features in action
+python demo.py
 ```
 
 ## 📖 Detailed Usage
@@ -216,6 +240,24 @@ Google Cloud TTS pricing (as of 2024):
 - **Cost Reduction**: Minimize API usage
 - **Performance Boost**: Faster subsequent runs
 
+### 🚀 One-Click Launcher
+- **Smart Recommendations**: Automatically suggests best interface
+- **System Detection**: Checks capabilities and dependencies
+- **Easy Access**: Single command to get started
+- **Browser Integration**: Automatic browser opening
+
+### 🎯 Interactive Setup Wizard
+- **Guided Setup**: Step-by-step configuration
+- **Credential Management**: Easy Google Cloud setup
+- **Preference Selection**: Language and voice preferences
+- **Demo Mode**: Try without credentials
+
+### 🧠 Smart CLI
+- **Interactive Commands**: Guided command building
+- **Auto-completion**: Intelligent suggestions
+- **File Detection**: Automatic file and credential detection
+- **Help Integration**: Built-in help and examples
+
 ### Performance Optimization
 - **Async Processing**: Concurrent API requests
 - **Connection Pooling**: Reuse HTTP connections
@@ -355,4 +397,5 @@ If you encounter issues:
 ---
 
 **Happy Text-to-Speech Processing! 🎤✨**
+# google-cloud-tts-batch-processor
 # google-cloud-tts-batch-processor
